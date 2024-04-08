@@ -39,5 +39,10 @@ function startGame() {
   canvas.addEventListener("click", x);
 }
 
+function getRandomEquation() {
+  return equationAndOptions[Math.floor(Math.random() * equationAndOptions.length)];
+}
+
 // document.getElementById("startButton").addEventListener("click", startGame);
 startGame();
+getRandomEquation();

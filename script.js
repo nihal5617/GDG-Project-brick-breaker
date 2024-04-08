@@ -31,6 +31,7 @@ let CURRENT_SCORE = 0;
 let HIGH_SCORE = 0;
 let FLAG = 0;
 let PLAYGAME = 0;
+let EQUATION = getRandomEquation();
 if (window.screen.width < 800) {
   CANVAS_WIDTH = window.screen.width * 0.9;
   CANVAS_HEIGHT = window.screen.height * 0.6;
@@ -118,8 +119,16 @@ const obstacle = {
   },
   destroy: function (x, y) {
     ctx.clearRect(x, y, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
-    // send a powerup down the screen which has a number on it
-    
+    powerup.x = x;
+    powerup.y = y;
+    powerup.draw();
+    let powerupInterval = setInterval(() => {
+      powerup.move();
+      powerup.draw();
+      if (powerup.y >= CANVAS_HEIGHT) {
+        clearInterval(powerupInterval);
+      }
+    }, 4);
   },
   createGrid: function () {
     for (let i = 0; i < OBSTACLE_ROW_COUNT; i++) {
@@ -184,10 +193,8 @@ const ball = {
         obstacle.destroy(LOC[i][0], LOC[i][1]);
         LOC.splice(i, 1);
         this.vy = -this.vy;
-        CURRENT_SCORE += 1;
-        document.getElementById(
-          "curr_score"
-        ).innerText = `YOUR SCORE : ${CURRENT_SCORE}`;
+
+        document.getElementById("curr_equation").innerText = EQUATION.equation;
         this.vy *= 1.005;
         this.vx *= 1.005;
       }
@@ -213,12 +220,51 @@ const paddle = {
     else this.x = e.offsetX - PADDLE_WIDTH / 2;
   },
 };
+const powerup = {
+  x: 0,
+  y: 0,
+  text: EQUATION.options[[Math.floor(Math.random() * EQUATION.options.length)]],
+  draw: function () {
+    ctx.fillStyle = "#000000";
+    ctx.font = "24px Arial";
+    ctx.fillText(this.text, this.x, this.y);
+  },
+  move: function () {
+    this.y += 1.5;
+    if (
+      this.x >= X &&
+      this.x <= X + PADDLE_WIDTH &&
+      this.y + this.radius < CANVAS_HEIGHT &&
+      this.y + this.radius >= CANVAS_HEIGHT - PADDLE_HEIGHT
+    ) {
+      if (Number(this.text) == EQUATION.answer) {
+        CURRENT_SCORE += 10;
+        document.getElementById(
+          "curr_score"
+        ).innerText = `YOUR SCORE : ${CURRENT_SCORE}`;
+        EQUATION = getRandomEquation();
+        document.getElementById("curr_equation").innerText = EQUATION.equation;
+      } else {
+        CURRENT_SCORE -= Number(this.text);
+        document.getElementById(
+          "curr_score"
+        ).innerText = `YOUR SCORE : ${CURRENT_SCORE}`;
+      }
+      this.y = 0;
+      this.text =
+        EQUATION.options[[Math.floor(Math.random() * EQUATION.options.length)]];
+    }
+    if (this.y >= CANVAS_HEIGHT) {
+      this.text =
+        EQUATION.options[Math.floor(Math.random() * EQUATION.options.length)];
+    }
+  },
+};
 function clear() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 function draw_on_canvas() {
   if (LOC.length == 0 || FLAG == 1) {
-    //stop and refresh
     FLAG = 0;
     LOC = [];
     ball.x = CANVAS_WIDTH / 2;
@@ -266,11 +312,13 @@ if (window.screen.width < 800) {
   });
 }
 function x() {
+  // the text should updatelike 3 2 1 go
+
   setTimeout(() => {
     PLAYGAME = setInterval(draw_on_canvas, 10);
     setInterval(drawController, 10);
   }, 3000);
-  Text.draw("Game starts in 3 secs!");
+  Text.draw("Game starts in 3,2,1 Go!");
   canvas.removeEventListener("click", x);
 }
 canvas.addEventListener("click", x);
