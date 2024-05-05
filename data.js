@@ -21,6 +21,26 @@ let equationAndOptions = [
     options: ["9", "10", "11", "12"],
     answer: "10",
   },
+  {
+    equation: "2 * 2",
+    options: ["3", "4", "5", "6"],
+    answer: "4",
+  },
+  {
+    equation: "3 * 3",
+    options: ["5", "6", "7", "9"],
+    answer: "9",
+  },
+  {
+    equation: "4 * 4",
+    options: ["7", "8", "9", "16"],
+    answer: "16",
+  },
+  {
+    equation: "5 * 5",
+    options: ["9", "10", "11", "25"],
+    answer: "25",
+  },
 ];
 
 function getPlayerName() {

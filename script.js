@@ -223,22 +223,26 @@ const paddle = {
 const powerup = {
   x: 0,
   y: 0,
-  text: EQUATION.options[[Math.floor(Math.random() * EQUATION.options.length)]],
+  text: EQUATION.answer,
   draw: function () {
     ctx.fillStyle = "#000000";
     ctx.font = "24px Arial";
     ctx.fillText(this.text, this.x, this.y);
   },
+  destroy: function () {
+    ctx.clearRect(this.x, this.y, 0, 0);
+  },
   move: function () {
-    this.y += 1.5;
+    this.y += 2;
     if (
       this.x >= X &&
       this.x <= X + PADDLE_WIDTH &&
-      this.y + this.radius < CANVAS_HEIGHT &&
-      this.y + this.radius >= CANVAS_HEIGHT - PADDLE_HEIGHT
+      this.y < CANVAS_HEIGHT &&
+      this.y >= CANVAS_HEIGHT - PADDLE_HEIGHT
     ) {
       if (Number(this.text) == EQUATION.answer) {
-        CURRENT_SCORE += 10;
+        CURRENT_SCORE += Number(this.text)
+        console.log(CURRENT_SCORE, "check current score");
         document.getElementById(
           "curr_score"
         ).innerText = `YOUR SCORE : ${CURRENT_SCORE}`;
@@ -257,6 +261,9 @@ const powerup = {
     if (this.y >= CANVAS_HEIGHT) {
       this.text =
         EQUATION.options[Math.floor(Math.random() * EQUATION.options.length)];
+    }
+    if (ball.y + ball.radius >= CANVAS_HEIGHT) {
+      this.destroy();
     }
   },
 };
