@@ -62,8 +62,8 @@ input {
 
 button {
   padding: 10px;
-  background-color: rgb(37, 127, 37);
-  color: black;
+  background-color: rgb(37, 127, 103);
+  color: white;
   font-size: 10px;
   text-transform: uppercase;
   border-radius: 5px;

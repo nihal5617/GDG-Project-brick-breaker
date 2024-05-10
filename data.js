@@ -1,5 +1,5 @@
 // data.js
-let playerName = "Nihal";
+let playerName = "";
 let equationAndOptions = [
   {
     equation: "2 + 2",
@@ -63,6 +63,5 @@ function getRandomEquation() {
   return equationAndOptions[Math.floor(Math.random() * equationAndOptions.length)];
 }
 
-// document.getElementById("startButton").addEventListener("click", startGame);
-startGame();
+document.getElementById("startButton").addEventListener("click", startGame);
 getRandomEquation();

@@ -13,7 +13,18 @@
 
   <body>
     <div id="startScreen">
-      <h2>Welcome to Math Smash: Equation Challenge!</h2>
+      <h1>Welcome to Math Smash: Equation Challenge!</h1>
+      <!-- instructions should be aligned to left and same should be for the contents inside this div -->
+      <div style="text-align: left">
+        <h2>Instructions:</h2>
+        <ul>
+          <li>An equation is shown at the top of the screen when the first ball hits the object.</li>
+          <li>The answer to that equation falls down (as a powerup) when the ball hits the object.</li>
+          <li>If the answer is correct then catch that power option and the points will be increased.</li>
+          <li>If the wrong answer is caught by the user then the points decreases.</li>
+          <li>The game ends when ball missed ot hit the bat.</li>
+        </ul>
+      </div>
       <label for="playerName"> Enter your name to play </label>
       <input type="text" id="playerName" placeholder="Your Name" />
       <button id="startButton">Start Game</button>
